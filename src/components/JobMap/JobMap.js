@@ -2,17 +2,16 @@ import React, { useState, useRef } from 'react'
 import ReactMapboxGl, { Marker, Popup } from "react-mapbox-gl";
 import './jobmap.css'
 
+const Map = ReactMapboxGl({
+  accessToken: process.env.REACT_APP_API_KEY
+});
+
 
 const JobMap = ({jobs, viewJob, currentJob, acceptJob }) => {
 
   const jobMap = useRef(null)
-    
-  const Map = ReactMapboxGl({
-    accessToken: process.env.REACT_APP_API_KEY
-  });
 
   const handleClick = (job) => {
-    debugger
     jobMap.current.state.map.flyTo({center: [job.$propertyLocation.coords.longitude, job.$propertyLocation.coords.latitude]})
     viewJob(job)
   }
