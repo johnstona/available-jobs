@@ -10,8 +10,8 @@ const styles = {
 
 const Map = ({jobs}) => {
   const [map, setMap] = useState(null);
-  const [coords, setCoords] = useState([40.748441, -73.985664])
-  const [toggle, setToggle] = useState(false)
+  // const [coords, setCoords] = useState([40.748441, -73.985664])
+  // const [toggle, setToggle] = useState(false)
   const mapContainer = useRef(null);
 
   const jobLocations = (
@@ -42,9 +42,9 @@ const Map = ({jobs}) => {
   }, [map]);
 
   const showMarker = () => {
-      var marker = new mapboxgl.Marker()
-      .setLngLat([-77.005854, 38.882001])
-      .addTo(map);
+      const marker = new mapboxgl.Marker({offset: [0, -50/2]})
+      marker.setLngLat([-77.005854, 38.882001])
+      marker.addTo(map);
     } 
 
   return <>
