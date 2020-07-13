@@ -7,18 +7,28 @@ const Map = ReactMapboxGl({
 });
 
 
-const JobMap = ({jobs, viewJob, currentJob, acceptJob }) => {
+const JobMap = ({jobs, viewJob, currentJob, acceptJob, popup, acceptedJob, togglePopup }) => {
 
   const jobMap = useRef(null)
+  const youMarker = useRef(null)
+  const [center, setCenter] = useState([-99.9018131, 31.9685988])
+  const [youHere, toggleYouHere] = useState(true)
+
+  const centreOn = (job) => {
+    let newCenter = [job.$propertyLocation.coords.longitude, job.$propertyLocation.coords.latitude]
+    jobMap.current.state.map.flyTo({center: newCenter})
+    setCenter(newCenter)
+  }
 
   const handleClick = (job) => {
-    jobMap.current.state.map.flyTo({center: [job.$propertyLocation.coords.longitude, job.$propertyLocation.coords.latitude]})
     viewJob(job)
+    centreOn(job)
   }
 
   const handleAccept = () => {
     acceptJob(currentJob)
-  } 
+    centreOn(currentJob)
+  }
 
   return  <Map ref={jobMap}
             style="mapbox://styles/mapbox/streets-v9"
@@ -26,24 +36,34 @@ const JobMap = ({jobs, viewJob, currentJob, acceptJob }) => {
               height: "100vh",
               width: "100vw",
             }}
-            center={[-99.9018131, 31.9685988]}
+            center={center}
             zoom={[2]}
           >
-
+            
+            <Marker coordinates={[-103.38183449999997, 43.9685522]} anchor="center">
+                <div ref={youMarker} className="marker" id="you-are-here" onClick={() => toggleYouHere(true)}>
+                            <span></span>
+                            </div>
+              </Marker>
+          {youHere && 
+            <Popup coordinates={[-103.38183449999997, 43.9685522]} >
+                <p>You are here</p>
+                <button onClick={() => toggleYouHere(false)}>Got it</button>    
+            </Popup>
+          }
           {jobs.map(j => {
                 return <Marker coordinates={[j.$propertyLocation.coords.longitude, j.$propertyLocation.coords.latitude]} anchor="center" >
                           <div className="marker" onClick={() => handleClick(j)}>
                             <span></span>
-                            {/* <img src="http://www.clker.com/cliparts/g/R/z/I/u/o/map-pin-hi.png"/> */}
                             </div>
                         </Marker>
               })}
-          {currentJob && 
+          {popup && 
             <Popup
             coordinates={[currentJob.$propertyLocation.coords.longitude, currentJob.$propertyLocation.coords.latitude]}
-           >
+            onClick={() => togglePopup(!popup)}>
             <p>{currentJob.$claims[0].claimType}</p>
-            <button onClick={handleAccept}>Accept job?</button>
+            {!acceptedJob ? <button onClick={handleAccept}>Accept job?</button> : <p>Job Accepted!</p>}
           </Popup>
           }
         </Map>
