@@ -7,11 +7,11 @@ const Map = ReactMapboxGl({
 });
 
 
-const JobMap = ({jobs, viewJob, currentJob, acceptJob, popup, acceptedJob, togglePopup }) => {
+const JobMap = ({jobs, viewJob, currentJob, acceptJob, popup, acceptedJob, togglePopup, userLocation }) => {
 
   const jobMap = useRef(null)
   const youMarker = useRef(null)
-  const [center, setCenter] = useState([-99.9018131, 31.9685988])
+  const [center, setCenter] = useState(userLocation)
   const [youHere, toggleYouHere] = useState(true)
 
   const centreOn = (job) => {
@@ -40,13 +40,13 @@ const JobMap = ({jobs, viewJob, currentJob, acceptJob, popup, acceptedJob, toggl
             zoom={[2]}
           >
             
-            <Marker coordinates={[-103.38183449999997, 43.9685522]} anchor="center">
-                <div ref={youMarker} className="marker" id="you-are-here" onClick={() => toggleYouHere(true)}>
-                            <span></span>
-                            </div>
-              </Marker>
+            <Marker coordinates={userLocation} anchor="center">
+              <div ref={youMarker} className="marker" id="you-are-here" onClick={() => toggleYouHere(true)}>
+                <span></span>
+              </div>
+            </Marker>
           {youHere && 
-            <Popup coordinates={[-103.38183449999997, 43.9685522]} >
+            <Popup coordinates={userLocation} >
                 <p>You are here</p>
                 <button onClick={() => toggleYouHere(false)}>Got it</button>    
             </Popup>
@@ -60,10 +60,13 @@ const JobMap = ({jobs, viewJob, currentJob, acceptJob, popup, acceptedJob, toggl
               })}
           {popup && 
             <Popup
-            coordinates={[currentJob.$propertyLocation.coords.longitude, currentJob.$propertyLocation.coords.latitude]}
-            onClick={() => togglePopup(!popup)}>
+                coordinates={[currentJob.$propertyLocation.coords.longitude, currentJob.$propertyLocation.coords.latitude]}
+                onClick={() => togglePopup(!popup)}>
             <p>{currentJob.$claims[0].claimType}</p>
-            {!acceptedJob ? <button onClick={handleAccept}>Accept job?</button> : <p>Job Accepted!</p>}
+            {!acceptedJob ? 
+              <button onClick={handleAccept}>Accept job?</button> :
+              <p>Job Accepted!</p>
+            }
           </Popup>
           }
         </Map>

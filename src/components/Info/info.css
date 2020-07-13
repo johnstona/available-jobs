@@ -11,5 +11,7 @@
 .info button {
   position: absolute;
   top: 7vh;
-  right: 40%;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
 }

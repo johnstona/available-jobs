@@ -29,6 +29,10 @@ const Main = () => {
     setAcceptedJob(null)
   }
 
+  //spoof user location as mount rushmore
+
+  const userLocation = [-103.38183449999997, 43.9685522]
+
   const validateCoords = (coords) => {
     return (coords.longitude <= 180 && coords.longitude >= -180) && (coords.latitude <= 90 && coords.latitude >= -90)
   }
@@ -38,7 +42,7 @@ const Main = () => {
   return jobs ?
           <>
           <Info acceptedJob={acceptedJob} cancel={cancelJob}/>
-          <JobMap jobs={jobsToShow} viewJob={viewJob} currentJob={currentJob} acceptJob={acceptJob} popup={popup} togglePopup={togglePopup} acceptedJob={acceptedJob}/> 
+          <JobMap jobs={jobsToShow} viewJob={viewJob} currentJob={currentJob} acceptJob={acceptJob} popup={popup} togglePopup={togglePopup} acceptedJob={acceptedJob} userLocation={userLocation}/> 
           </>
           : 'Loading...'
 }
