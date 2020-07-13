@@ -27,3 +27,7 @@
 .temporary-marker span {
   background: #D3D3D3;
 }
+
+#you-are-here span {
+  background: red;
+}
