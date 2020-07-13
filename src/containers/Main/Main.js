@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import API from '../../adapters/API'
 import JobMap from '../../components/JobMap/JobMap'
-import Task from '../../components/Task/Task'
+import Info from '../../components/Info/Info'
 
 const Main = () => {
 
   const [jobs, setJobs] = useState()
   const [currentJob, setCurrentJob] = useState(null)
   const [acceptedJob, setAcceptedJob] = useState(null)
+  const [popup, togglePopup] = useState(false)
 
   useEffect(() => {
     API.getAllJobs()
@@ -16,10 +17,16 @@ const Main = () => {
 
   const viewJob = (job) => {
     setCurrentJob(job)
+    togglePopup(true)
   }
 
   const acceptJob = (job) => {
     setAcceptedJob([job])
+    togglePopup(!popup)
+  }
+
+  const cancelJob = () => {
+    setAcceptedJob(null)
   }
 
   const validateCoords = (coords) => {
@@ -30,7 +37,8 @@ const Main = () => {
 
   return jobs ?
           <>
-          <JobMap jobs={jobsToShow} viewJob={viewJob} currentJob={currentJob} acceptJob={acceptJob}/> 
+          <Info acceptedJob={acceptedJob} cancel={cancelJob}/>
+          <JobMap jobs={jobsToShow} viewJob={viewJob} currentJob={currentJob} acceptJob={acceptJob} popup={popup} togglePopup={togglePopup} acceptedJob={acceptedJob}/> 
           </>
           : 'Loading...'
 }
