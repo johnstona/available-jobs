@@ -1,0 +1,15 @@
+.info {
+  height: 10vh;
+  text-align: center;
+  line-height: 8vh;
+}
+
+.info p {
+  margin: 0
+}
+
+.info button {
+  position: absolute;
+  top: 7vh;
+  right: 40%;
+}
