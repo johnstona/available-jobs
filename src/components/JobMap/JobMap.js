@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react'
-import ReactMapboxGl, { Marker, Popup } from "react-mapbox-gl";
+import React, { useState, useRef, useEffect } from 'react'
+import ReactMapboxGl, { Marker, Popup, GeoJSONLayer } from "react-mapbox-gl";
 import './jobmap.css'
 
 const Map = ReactMapboxGl({
@@ -62,7 +62,7 @@ const JobMap = ({jobs, viewJob, currentJob, acceptJob, popup, acceptedJob, toggl
             <Popup
                 coordinates={[currentJob.$propertyLocation.coords.longitude, currentJob.$propertyLocation.coords.latitude]}
                 onClick={() => togglePopup(!popup)}>
-            <p>{currentJob.$claims[0].claimType}</p>
+            <p>Issue: {currentJob.$claims[0].claimType}</p>
             {!acceptedJob ? 
               <button onClick={handleAccept}>Accept job?</button> :
               <p>Job Accepted!</p>
