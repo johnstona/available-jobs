@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import API from '../../adapters/API'
 import JobMap from '../../components/JobMap/JobMap'
 import Info from '../../components/Info/Info'
+import './main.css'
 
 const Main = () => {
 

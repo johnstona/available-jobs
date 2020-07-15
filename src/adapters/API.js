@@ -1,5 +1,3 @@
-import { findRenderedDOMComponentWithTag } from "react-dom/test-utils"
-
 const BASE_URL = 'https://cors-anywhere.herokuapp.com/https://run.mocky.io/v3/d27b910a-4fcc-4ff6-ba34-717f9834105d'
 const DIRECTIONS_URL = 'https://api.mapbox.com/directions/v5/mapbox/driving/'
 
